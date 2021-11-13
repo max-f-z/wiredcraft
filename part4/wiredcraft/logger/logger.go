@@ -17,8 +17,10 @@ func Logger() *zap.Logger {
 	var loggerConfig zap.Config
 
 	if string(gin.ReleaseMode) == os.Getenv("GIN_MODE") {
+		// PROD mode
 		loggerConfig = zap.NewProductionConfig()
 	} else {
+		// Dev mode
 		loggerConfig = zap.NewDevelopmentConfig()
 	}
 

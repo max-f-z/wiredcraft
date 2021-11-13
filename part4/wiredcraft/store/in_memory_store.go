@@ -2,6 +2,8 @@ package store
 
 import "sync"
 
+// inMemoryStore is created for unit test
+// no need to have persistent storage for unit tests
 type inMemoryStore struct {
 	cache string
 	mutex sync.RWMutex

@@ -76,15 +76,10 @@ func SetupRouter() *gin.Engine {
 
 	r.GET("/welcome", GetWelcome)
 	r.PUT("/welcome", PutWelcome)
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
-	// ginSwagger.WrapHandler(swaggerfiles.Handler,
-	// 	ginSwagger.URL("http://localhost:8080/swagger/doc.json"),
-	// 	ginSwagger.DefaultModelsExpandDepth(-1))
-
-	// r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler,
-	// 	ginSwagger.URL("http://localhost:8080/swagger/doc.json"),
-	// 	ginSwagger.DefaultModelsExpandDepth(-1)))
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler,
+		ginSwagger.URL("http://localhost:8080/swagger/doc.json"),
+		ginSwagger.DefaultModelsExpandDepth(-1)))
 
 	return r
 }
