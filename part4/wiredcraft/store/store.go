@@ -1,6 +1,7 @@
 package store
 
 import (
+	"fmt"
 	"os"
 	"sync"
 	"wiredcraft/logger"
@@ -56,9 +57,24 @@ func InitValue() {
 	var err error
 	ss := &store{}
 
-	// TODO host password hardcoded here
-	options := redis.DialPassword("123456")
-	ss.redisConn, err = redis.Dial("tcp", "172.17.0.1:6379", options)
+	password := "123456"
+	host := "172.17.0.1"
+	port := "6379"
+
+	if os.Getenv("REDISPASS") != "" {
+		password = os.Getenv("REDISPASS")
+	}
+
+	if os.Getenv("REDISHOST") != "" {
+		host = os.Getenv("REDISHOST")
+	}
+
+	if os.Getenv("REDISHOST") != "" {
+		port = os.Getenv("REDISPORT")
+	}
+
+	options := redis.DialPassword(password)
+	ss.redisConn, err = redis.Dial("tcp", fmt.Sprintf("%s:%s", host, port), options)
 
 	if err != nil {
 		logger.Logger().Error("error connect to redis", zap.Any("error", err))
