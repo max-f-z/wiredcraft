@@ -1,0 +1,35 @@
+run:
+  deadline: 5m
+
+output:
+  sort-results: true
+
+linters:
+  enable:
+    - gofmt
+    - goimports
+    - deadcode
+    - varcheck
+    - whitespace
+    - misspell
+    - ineffassign
+    - bodyclose
+    - predeclared
+    - unconvert
+    - unparam
+    - asciicheck
+    - exportloopref
+    - goprintffuncname
+    - goheader
+    - makezero
+    - nakedret
+    - nolintlint
+    - typecheck
+    - gosimple
+    - dupl
+    - staticcheck
+    - gocritic
+    - gocyclo
+    - gosec
+    - errcheck
+  fast: false

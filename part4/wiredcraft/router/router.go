@@ -2,10 +2,13 @@ package router
 
 import (
 	"fmt"
+	"wiredcraft/docs"
 	"wiredcraft/logger"
 	"wiredcraft/store"
 
 	"github.com/gin-gonic/gin"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"go.uber.org/zap"
 )
 
@@ -13,6 +16,17 @@ type Param struct {
 	Name string `json:"name"`
 }
 
+// @BasePath /
+
+// GetWelcome godoc
+// @Summary get welcome
+// @Schemes
+// @Description return hello name
+// @Tags example
+// @Accept json
+// @Produce text/plain
+// @Success 200 {string} hello name
+// @Router /welcome [get]
 func GetWelcome(c *gin.Context) {
 	name := store.GetStore().Get()
 
@@ -23,6 +37,18 @@ func GetWelcome(c *gin.Context) {
 	}
 }
 
+// @BasePath /
+
+// PetWelcome godoc
+// @Summary put welcome
+// @Schemes
+// @Description return success
+// @Param name body Param true "name"
+// @Tags example
+// @Accept json
+// @Produce text/plain
+// @Success 200 {string} success
+// @Router /welcome [put]
 func PutWelcome(c *gin.Context) {
 	params := Param{}
 	err := c.BindJSON(&params)
@@ -46,8 +72,19 @@ func PutWelcome(c *gin.Context) {
 func SetupRouter() *gin.Engine {
 	r := gin.New()
 
+	docs.SwaggerInfo.BasePath = "/"
+
 	r.GET("/welcome", GetWelcome)
 	r.PUT("/welcome", PutWelcome)
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+
+	// ginSwagger.WrapHandler(swaggerfiles.Handler,
+	// 	ginSwagger.URL("http://localhost:8080/swagger/doc.json"),
+	// 	ginSwagger.DefaultModelsExpandDepth(-1))
+
+	// r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler,
+	// 	ginSwagger.URL("http://localhost:8080/swagger/doc.json"),
+	// 	ginSwagger.DefaultModelsExpandDepth(-1)))
 
 	return r
 }

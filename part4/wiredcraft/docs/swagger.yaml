@@ -1,0 +1,46 @@
+definitions:
+  router.Param:
+    properties:
+      name:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /welcome:
+    get:
+      consumes:
+      - application/json
+      description: return hello name
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: get welcome
+      tags:
+      - example
+    put:
+      consumes:
+      - application/json
+      description: return success
+      parameters:
+      - description: name
+        in: body
+        name: name
+        required: true
+        schema:
+          $ref: '#/definitions/router.Param'
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: put welcome
+      tags:
+      - example
+swagger: "2.0"
