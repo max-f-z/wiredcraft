@@ -58,7 +58,7 @@ func InitValue() {
 
 	// TODO host password hardcoded here
 	options := redis.DialPassword("123456")
-	ss.redisConn, err = redis.Dial("tcp", "127.0.0.1:6379", options)
+	ss.redisConn, err = redis.Dial("tcp", "172.17.0.1:6379", options)
 
 	if err != nil {
 		logger.Logger().Error("error connect to redis", zap.Any("error", err))
