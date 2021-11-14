@@ -69,7 +69,7 @@ func InitValue() {
 		host = os.Getenv("REDISHOST")
 	}
 
-	if os.Getenv("REDISHOST") != "" {
+	if os.Getenv("REDISPORT") != "" {
 		port = os.Getenv("REDISPORT")
 	}
 
