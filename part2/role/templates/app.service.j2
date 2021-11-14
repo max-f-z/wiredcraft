@@ -1,0 +1,16 @@
+[Unit]
+Description=shadowsocks client
+After=network.target
+
+[Service]
+#!/bin/sh
+Environment="DB_URL={{ db_url }}"
+Environment="DB_USERNAME={{ db_username }}"
+Environment="DB_PASSWORD={{ db_password }}"
+ExecStart=/home/app/wiredcraft 
+Restart=always
+User=app
+Group=app
+
+[Install]
+WantedBy=multi-user.target

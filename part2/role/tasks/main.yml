@@ -1,0 +1,24 @@
+---
+
+- name: disable selinux
+  import_tasks: disable-selinux.yml
+
+- name: install tools
+  import_tasks: install-tool.yml
+  
+- name: install config nginx
+  import_tasks: install-config-nginx.yml
+
+- name: install config redis
+  import_tasks: install-config-redis.yml
+
+- name: install config app
+  import_tasks: install-app.yml
+  
+- name: restart services
+  import_tasks: start-services.yml
+
+- name: cron backup
+  import_tasks: cron.yml
+
+  

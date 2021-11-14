@@ -1,0 +1,10 @@
+---
+- name: config disable selinux
+  lineinfile: 
+    path: /etc/selinux/config
+    regexp: '^SELINUX='
+    line: 'SELINUX=enforcing'
+    
+- name: diable selinux
+  selinux: 
+    state: disabled

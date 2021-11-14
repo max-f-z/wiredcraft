@@ -1,0 +1,14 @@
+---
+
+- name: install redis
+  yum:
+    name: "redis"
+    state: present
+
+- name: copy redis config file
+  template: 
+    src: "templates/redis.conf.j2"
+    dest: "/etc/reis.conf"
+    owner: "redis"
+    group: "redis"
+    mode: 0640

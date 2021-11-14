@@ -1,0 +1,10 @@
+#!/bin/sh
+
+cur_date=`date +%Y%m%d%k`
+rm -rf /usr/local/docker/redis/snapshotting/$cur_date
+mkdir -p  /usr/local/docker/redis/snapshotting/$cur_date
+cp /usr/local/docker/redis/data/dump.rdb /usr/local/docker/redis/snapshotting/$cur_date
+cp /usr/local/docker/redis/data/appendonly.aof /usr/local/docker/redis/snapshotting/$cur_date
+
+del_date=`date -d -48hour +%Y%m%d%k`
+rm -rf /usr/local/docker/redis/snapshotting/$del_datel_date

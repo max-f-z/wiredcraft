@@ -1,0 +1,10 @@
+---
+
+- name: install tools and nginx
+  yum:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - epel-release
+      - wget

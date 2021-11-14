@@ -1,0 +1,15 @@
+---
+
+app_download_url: "registry.wcl.com/wcl/api:latest"
+
+app_download_user: "demo"
+app_download_pass: "demo"
+
+db_url: "localhost:8091"
+db_username: "demo"
+db_password: "demo"
+
+redis_pass: 123456
+
+web_listen_port: 80
+web_port: 3000

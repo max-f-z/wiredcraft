@@ -1,0 +1,34 @@
+---
+
+- name: add app user
+  user:
+    name: "app"
+    group: "app"
+    shell: /bin/bash
+    state: present
+    # https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-generate-crypted-passwords-for-the-user-module
+    password: "$6$CTi3JeP6cM56DKJh$WrXqh9lA7E5EqpQ9xO8SzDyBw2mFVnxziAX2fxSHQMUW2EzvL6lC2ieTsyw61fM6EoErT/oq7vgnrsc0.I0U6."
+    home: "/home/app"
+    append: yes
+
+- name: check whether app is downloaded
+  stat:
+    path: "/home/app/wiredcraft"
+  register: app_downloaded_check
+
+- name: download app
+  shell: >
+    wget https://{{ app_download_user }}:{{ app_download_pass }}@{{ app_download_url }} -O /home/app/wiredcraft && chown app:app /home/app/wiredcraft && chmod +x /home/app/wiredcraft
+  when: not app_downloaded_check.stat.exists
+  register: download_result
+  failed_when: download_result.rc != 0 and download_result.rc != 1
+
+
+- name: copy systemd config file
+  template: 
+    src: "templates/app.conf.j2"
+    dest: "/etc/systemd/system/app.conf"
+    owner: "app"
+    group: "app"
+    mode: 0644
+
