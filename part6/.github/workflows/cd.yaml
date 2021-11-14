@@ -1,0 +1,23 @@
+name: github actions cd
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'tag'
+        required: true
+        default: 'latest'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: docker stop app && docker pull polaris89/wiredcraft:${{ github.event.inputs.tag }} && docker run --rm polaris89/wiredcraft:${{ github.event.inputs.tag }}

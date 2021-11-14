@@ -1,0 +1,37 @@
+name: GitHub Actions CI
+on:
+  push:
+    branches:
+      - master
+  push:
+    tags:
+      - v*
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - 
+        name: Build and push
+        id: gen_tags
+        run: |
+          if [[ $GITHUB_REF == 'refs/tags/'* ]]; then
+            TAGS='["poalris89/wiredcraft:latest","poalris89/wiredcraft:'${GITHUB_REF/refs\/tags\//}'"]'
+          else
+            TAGS='["poalris89/wiredcraft:latest"]'
+          fi
+          echo '::set-output name=tags::'$TAGS
+      -
+        name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        needs: gen_tags
+        with:
+          push: true
+          tags: ${{ fromJson(steps.gen_tags.outputs.tags) }}:
+  
