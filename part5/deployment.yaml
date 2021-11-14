@@ -1,0 +1,85 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wiredcraft-app
+spec:
+  replicas: 2
+  selector:
+      matchLabels:
+        app: wiredcraft-app
+  template:
+    metadata:
+      labels:
+        app: wiredcraft-app
+    spec:
+      containers:
+      - image: XXXXXX/wiredcraft:0.1.0
+        name: wiredcraft-app
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources:
+          requests:
+            memory: "10Mi"
+            cpu: "100m"
+          limits:
+            memory: "100Mi"
+            cpu: "500m"
+        env:
+          - name: "REDISHOST"
+            value: "redis-demo"
+          - name: "REDISPORT"
+            value: "6379"
+          - name: "REDISPASS"
+            value: "123456"
+          - name: "GIN_MODE"
+            value: "release"
+      imagePullSecrets: 
+        - name: regsecret
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-demo
+spec:
+  replicas: 1
+  selector:
+      matchLabels:
+        app: redis-demo
+  template:
+    metadata:
+      labels:
+        app: redis-demo
+    spec:
+      containers:
+      - image: redis
+        name: redis-demo
+        command:
+          - redis-server
+          - /usr/local/etc/redis/redis.conf
+        ports:
+        - containerPort: 6379
+          protocol: TCP
+        resources:
+          requests:
+            memory: "100Mi"
+            cpu: "100m"
+          limits:
+            memory: "200Mi"
+            cpu: "500m"
+        volumeMounts:
+        - name: redis-config
+          mountPath: "/usr/local/etc/redis/redis.conf"
+          subPath: redis.conf
+          readOnly: true
+        - name: redis-data
+          moutPath: "/data"
+      volumes:
+        - name: redis-config
+          configMap:
+            name: reids-config
+        - name: redis-data
+          persistentVolumeClaim:
+            claimName: redis-pvc

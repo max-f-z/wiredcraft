@@ -1,0 +1,24 @@
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: redis-demo
+spec:
+  selector:
+    app: redis-demo
+  ports: 
+  - port: 6379
+    targetPort: 6379
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: wiredcraft-app
+spec:
+  selector:
+    app: wiredcraft-app
+  ports: 
+  - port: 8080
+    targetPort: 8080

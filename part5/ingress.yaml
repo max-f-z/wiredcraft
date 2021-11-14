@@ -1,0 +1,16 @@
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: wiredcraft-app
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+  - host: wiredcraft.demo.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: wiredcraft-app
+          servicePort: 8080
